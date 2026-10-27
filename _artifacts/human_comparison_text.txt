@@ -1,0 +1,751 @@
+
+
+==================== PAGE 17 ====================
+
+Emulating Human-like Adaptive Vision for Efficient and Flexible Machine Visual Perception
+task prompts. Moreover, when the required action involves precise and fine-grained control, our model tends to
+leverage more visual fixations for more careful perception. Otherwise, relatively fewer fixations will be adopted
+to maximally save the cost. In summary, AdaptiveNN exhibits significantly improved computational efficiency,
+adaptability, and interpretability. These marked merits are consistent with our previous findings.
+3.7. Comparisons between AdaptiveNN and human visual perception
+AdaptiveNN also emerges as a potent computational tool for probing human visual cognition under controlled
+experimental conditions. This can be uncovered with the marked consistency between humans and AdaptiveNN
+in side-by-side evaluations on the same tests of visual perception behaviors. Our experimental protocols are
+detailed in Section 5.2.3.
+First, we examine the consistency of the locations of visual regions that humans and AdaptiveNN fixate on.
+We assess the spatial-wise adaptiveness of human vision using the SALICON benchmark dataset [103], which
+comprises images each observed by approximately 60 participants recruited via Amazon Mechanical Turk (AMT).
+These participants were asked to freely view each image for 5 seconds without specific instructions on where to
+direct their gaze, allowing for an unbiased recording of their visual gazing center points. In Fig. 6a, we utilize the
+aggregate density map of all∼60 observers’ gazing points as the ground truth, against which we evaluate the
+probabilitythattherealfocalcentersofhumanvisionfallintothevisualfixationregionslocalizedbyAdaptiveNN.
+Here AdaptiveNN adopts the same experimental paradigm as humans: it produces a fixed number of fixations,
+and it is learned on ImageNet, having never seen or been trained using the data in SALICON. In addition to
+our model, we also report the performance corresponding to the expected behavior of selecting visual fixation
+regions following the gazing locations of an arbitrary single human (one of∼60 observers) or uniformly at
+random, denoted by 1.0 (human) and 0.0 (random) on they-axis of Fig. 6a, yielding a metric named ‘normalized
+human-like score’ (see Section 5.2.3 for details).
+Fig. 6a and Supplementary Data Tab. 25-26 summarize the quantitative results on the two splits of SALICON. In
+terms of the alignment with the ground truth spatial-adaptive human visual perception behaviors, AdaptiveNN
+performsonparwithorsurpassesthatofanaverageindividualhumanobserver,consistentlyregisteringnormalized
+human-like scores exceeding 1.0. In contrast, pre-defined fixation localization policies and CAM-based methods
+yield scores ranging from -0.1 to 0.4, generally failing to significantly outperform a random selection strategy.
+Furthermore, Fig. 6b offers a qualitative comparison between the ground truth density maps of human gazing
+locations (heat maps) and the fixation regions selected by AdaptiveNN (boxes). Our model produces human-like
+patterns in many cases, frequently being attracted by faces, hands, human bodies, human actions, or objects
+intimately associated with human activity, such as food, computers, skateboards, tennis rackets, and buses. This
+underscores our model’s ability to emulate sophisticated perceptual behaviors that reflect complex human visual
+strategies. Rather interestingly, these human-like patterns emerge from solely being trained on the ImageNet
+image recognition task, without reliance on the typical inductive biases innate to human cognition (e.g., biases
+concerning objects, agents, space, and biological motion [78, 79, 80, 81, 82, 83, 84, 85]).
+Second, orthogonal to investigating spatial adaptiveness, we examine the extent to which AdaptiveNN aligns with
+human judgments in assessing which visual environments are more challenging for a given task and necessitate
+more thorough scrutiny. Specifically, human participants (n=10) were tasked with rating each image within six
+representative categories of the ImageNet validation set, according to the difficulty of classifying each image. In
+Fig. 6c and Supplementary Data Tab. 27, these human-assessed difficulty scores are normalized on an individual
+basis, averaged across participants, and then compared against the normalized state values predicted by the
+AdaptiveNN learned on ImageNet, which reflect our model’s assessments of each image’s difficulty level. The
+evaluations made by AdaptiveNN demonstrate astrong correlation with humanjudgments (all P<0.0001; Pearson
+correlation coefficientρ∈[0.54, 0.80]). Fig. 6d further presents qualitative examples of the relatively ‘easy’ and
+‘difficult’ data identified by our model. The visualizations are generally reasonable; images depicted from typical
+perspectives with clear, relevant content tend to be deemed ‘easy’. These findings suggest that our model closely
+approximates human-like proficiency in dynamically allocating visual perception resources across varied visual
+environments – a critical characteristic of human visual systems.
+Finally, we establish several ‘visual Turing tests’ [22] to compare AdaptiveNN with human vision. In these
+tests, human judges are given paired examples of visual perception behaviors from humans and our model, and
+17
+
+==================== PAGE 18 ====================
+
+Emulating Human-like Adaptive Vision for Efficient and Flexible Machine Visual Perception
+Difficulty Level Predicted by AdaptiveNN (normalized)
+Human-Assessed Difficulty Level (normalized)
+Monarch Butterfly Balloon Speedboat
+Ibex Snowplow Cockatoo
+a
+c
+b
+d
+Relatively
+“Easy”
+Relatively
+“Difficult”
+Examples of Data
+e f
+18
+
+==================== PAGE 19 ====================
+
+Emulating Human-like Adaptive Vision for Efficient and Flexible Machine Visual Perception
+Figure 6. Behavioral comparisons between AdaptiveNN and human vision. (a)Normalized human-like scores, which quantify the
+probability that the ground truth gazing centers of human vision (whose distribution is estimated by averaging across∼60 observers’
+visual perception behaviors) fall into the visual fixation regions localized by AdaptiveNN or comparative strategies. The raw results
+are normalized with respect to the expected performance of selecting fixation regions with the gazing locations of an individual human
+observer (1.0 on they-axis) and uniformly at random (0.0 on they-axis). Each point represents the result over a mini-batch of data, while
+boxplots depict the distribution of results. The evaluation is based on the SALICON dataset [103]. Our model is trained on ImageNet,
+having never seen the data in SALICON. This ‘zero-shot’ paradigm evaluates directly transferring AdaptiveNN’s perceptual behaviors to
+novel, complex environments, with a fixed number of fixations, mirroring the collection procedure of human gazing centers. Baselines for
+comparison incorporate selecting fixation regions using i) pre-defined rules; ii) class activation maps (CAMs); iii) CAMs augmented
+with a Gaussian mixture model (GMM). See Supplementary Section B for the details of these baselines.†: GMM introduces additional
+computation. *Independent samplest-test. (b) Qualitative comparisons between the ground truth density maps of human gazing centers
+(heat maps) and AdaptiveNN fixation regions (boxes). Boxes indicate fixation locations, with step indices annotated at the upper left
+corner of each box.(c) Correlation of human-assessed difficulty scores (averaged acrossn=10 subjects) and difficulty levels (state values)
+evaluated by theVision Agentof AdaptiveNN. Without loss of generality, the state values are taken from the first step of sequential
+perception processes. Results are based on six representative categories of data in the ImageNet validation set.ρ: Pearson correlation
+coefficients. *Correlationt-test. (d)Visualization examples of the ‘easy’ and ‘difficult’ data identified by AdaptiveNN.(e-f)Results of
+‘visual Turing tests’. Human judges (n=39) are randomly given paired examples of visual perception behaviors from ‘humans’ and ‘one
+within {AdaptiveNN, humans, random behaviors}’. They are instructed to identify the machine (even in cases when the pairs of ‘random
+v.s. human’ or ‘human v.s. human’ are given, which serve as control groups for comparison). Bars show the mean accuracy across human
+judges and the corresponding 95% confidence interval. Ideal performance is 50%, where the machine is indistinguishable from human
+behaviors in these binary choice tasks.
+instructed to identify which come from the machine. The results are evaluated using the accuracy of human
+judgments: 50% indicates perfectly human-like behaviors that are indistinguishable from humans, while 100%
+represents the worst case. Each participant (n=39) has completed 216 trials with blocked feedback to investigate
+both the spatial-wise visual fixation behaviors and the sample-wise visual difficulty assessment behaviors of
+AdaptiveNN, with the judgments analyzed individually and in aggregate. Importantly, we randomly replace
+the ‘machine’ behaviors of some trials with ‘human’ or ‘random’ behaviors without letting participants know,
+and separately evaluate the accuracy of these trials, establishing two randomized control groups as baselines for
+comparison. The detailed procedure of ‘visual Turing tests’ is illustrated in Extended Data Fig. A3a. Some
+examples of the trials can be found in Supplementary Data Fig. 1-2.
+The results are summarized in Fig. 6e-6f, Extended Data Fig. A3b, Supplementary Data Tab. 28-29, and
+Supplementary Data Fig. 3-4. In both scenarios, human judges achieve only 50-51% accuracies in correctly
+identifying ‘AdaptiveNN v.s. human’, which do not acceptably outperform random guessing in statistics (t(38) =
+0.90, -0.09, P = 0.37, 0.93). Additionally, these ‘machine v.s. human’ judgments do not exhibit a significant
+difference from the 49-50% accuracies of the ‘human v.s. human’ baselines (t(38) = 0.97, 0.40, P = 0.33, 0.69).
+In contrast, ‘random v.s. human’ results in considerably easier Turing test tasks (accuracies≥80%). These
+observations demonstrate that in general, AdaptiveNN approaches an indistinguishable level from the adaptive
+perceptual behaviors of human vision.
+3.8. Ablation studies and analysis of the design of AdaptiveNN
+In pursuit of a comprehensive understanding of our work, Extended Data Fig. A2 and Supplementary Data Tab.
+30-49 establishes a series of evaluations uncovering that the components of AdaptiveNN function as we expect,
+and that our design markedly outperforms alternative choices.
+Extended Data Fig. A2a and Supplementary Data Tab. 30-37 examine the effectiveness of a broad array
+of possible strategies for localizing visual fixations. The reinforcement learning algorithm of AdaptiveNN
+achieves significantly higher validation accuracies than the most competitive baseline across all the scenarios (all
+P<0.0001), especially with limited numbers of fixations. Intriguingly, although GardCAM has been widely used
+as a feasible algorithm to visualize the regions relevant to the decision-making of deep networks [43,104], its
+application in selecting visual fixations does not yield competitive performance against AdaptiveNN, even though
+it is augmented with a Gaussian mixture model and additional computation. Moreover, other possible methods for
+19
+
+==================== PAGE 20 ====================
+
+Emulating Human-like Adaptive Vision for Efficient and Flexible Machine Visual Perception
+training the fixation selection policy, such as spatial transformer net and Gumbel-Softmax, do not exhibit the
+potential to approach reinforcement learning. They fail to secure noteworthy gains over pre-defined non-adaptive
+policies like random or Gaussian sampling.
+In Extended Data Fig. A2b and Supplementary Data Tab. 38-45, we show that the state values predicted by the
+Vision Agentof AdaptiveNN are strongly correlated with the test loss of the validation data. This correlation
+indicates that, for a given test sample whose label is unknown, we can leverage its associated state values as
+reliable proxies of how far the outputs of our model are from the accurate prediction. This phenomenon is highly
+consistent with our goal of introducing the value network (Fig. 2d). In this sense, Extended Data Fig. A2c
+and Supplementary Data Tab. 46-49 provide further evidence supporting that the strategy of concluding the
+observation processes of the samples exhibiting smaller rather than larger state values is beneficial for a higher
+overall computational efficiency. This strategy underscores the efficacy of the value network in guiding the
+allocation of computational resources toward optimizing model performance.
+Extended Data Fig. A2d-A2e present system-level comparisons against representative state-of-the-art methods for
+enhancing the energy efficiency of deep networks. Extended Data Fig. A2d focuses on the recently proposed
+algorithmsthatleveragethespatialredundancyofvisualdata, whereasExtendedDataFig. A2econsidersexisting
+multi-exit models characterized by an online-adjustable computational cost. AdaptiveNN outperforms all of
+them by marked margins when consuming less or comparable amounts of computation, even though the major
+motivation of our work is to emulate the visual perception behaviors of humans to drive a paradigm shift from
+‘passive’ to ‘active and adaptive’ vision models, instead of attaining optimal engineering performance.
+4. Discussion
+Human vision is distinguished by its remarkable flexibility to adapt to spatial regions with different content,
+varying complexities of visual environments, diverse task demands, and fluctuating resource availability for
+perception. In contrast, current machine vision models mainly adopt ‘passive’ paradigms, which usually perceive
+everything everywhere in parallel with an identical computational graph, regardless of the specific characteristics
+of variable visual environments, tasks and resources. This lack of adaptive adjustment results in an ‘impossible
+triangle’ formed by high-dimensional visual inputs, large-scale neural networks, and efficiency: under the scaling
+laws, the first two tend to be essential for complex real-world vision problems, but they significantly compromise
+efficiency. This inherent limitation impedes both future advancements and application in diverse real-world
+scenarios. In this article, we aim to address this issue by enabling neural networks to computationally emulate
+the adaptive behaviors of human visual systems, driving a paradigm shift from ‘passive’ to ‘active and adaptive’
+vision models.
+Specifically, we establish an AdaptiveNN framework that perceives scenes by sequentially fixating on pertinent
+regions, incrementally integrating information across fixations, and actively concluding its observation to
+accomplish the task of interest. Theoretical analyses suggest that such models can be trained using reinforcement
+learning without specialized supervision, relying solely on simple task-driven objectives. Our resulting method,
+AdaptiveNN, substantially reduces the computational cost of well-performing computer vision models by up
+to 28× without sacrificing accuracy (Fig. 3b, 3c, 4a, 5b, and Extended Data Fig. A1a). Moreover, it exhibits
+human-like flexibility in adjusting its inference cost online without necessitating additional training (Fig. 3b, 3c,
+4a, 5b, and Extended Data Fig. A1a), as well as in customizing its perceptual strategies conditioned on variable
+task demands through modifying the training objective (Fig. 4c, 4d) or introducing natural language prompts as
+inputs (Fig. 5). Additionally, AdaptiveNN is also distinctive in its enhanced interpretability through analyzing its
+fixation patterns (Fig. 3a, 4b, 4d, 4f, 5d, and Extended Data Fig. A1b-A1e), in a manner akin to understanding
+human visual systems [56, 105, 106, 77]. These aforementioned favorable attributes align closely with the
+extensively recognized advantages of human visual systems [56, 59, 7, 57, 62, 58, 76, 107, 60]. In this sense,
+we believe that our work significantly advances the resolution of the open challenge raised by LeCun, Bengio,
+and Hinton [61], opening up a new horizon for developing more energy-efficient, adaptable, and interpretable
+computer vision models. These properties are critical for realistic scenarios such as wearable devices, mobile
+phones, robotics, embedded devices, autonomous vehicles, and medical AI applications.
+The design and theoretical analyses of AdaptiveNN have carefully avoided involving strong assumptions or
+specializedimplementationconfigurations. Asaconsequence,itiscompatiblewithawidearrayofstate-of-the-art
+20
+
+==================== PAGE 21 ====================
+
+Emulating Human-like Adaptive Vision for Efficient and Flexible Machine Visual Perception
+representation learning backbones [108, 36, 37, 98, 109, 110, 111], which can be readily incorporated as the
+feature-extraction module within our model. Furthermore, the outputs of AdaptiveNN interface seamlessly with
+various vision tasks, such as recognition, medical diagnosis or prognosis [43], segmentation [41], locating visual
+objects [112, 113], and embodied multimodal large language models (MLLM) [101]. In this article, we first
+demonstrate our model’s generalizability using several representative backbone networks: ResNet (convolutional
+neural network) [36] and DeiT (vision Transformer) [98], through the lens of two common, foundational elements
+of diverse vision tasks: ‘what’ and ‘where’ [114], namely semantic understanding and element localization
+(Fig. 3, 4, and Extended Data Fig. A1). To demonstrate the versatility of AdaptiveNN, we further deploy it as
+the perceptual module of a language-driven embodied MLLM (Fig. 5). Our considerations of building up a
+general framework not only verify the extensive applicability of our findings, but also facilitate a focused and
+comprehensive examination of the benefits derived from formulating human-like adaptive visual perception.
+Additionally, we believe that the sufficient flexibility of our approach offers promising avenues for further
+extensions.
+Our results are also appealing in their contributions to the ongoing discourse on human visual cognition,
+particularly concerning the debate over the role of innateness in learning perceptual behaviors. This debate has
+persisted for centuries, questioning whether certain visual behaviors are inherent at birth or learned through
+experience [115, 116, 117, 23]. Some developmental psychologists have postulated that innate biases, such
+as those related to objects, agents, space, and biological motion [78, 79, 80, 81, 82, 83, 84, 85], may shape
+the process of learning from the environment. Conversely, others argue that visual capabilities can develop in
+the absence of such biases, heavily influenced by the richness of the developing child’s experience [118, 23].
+Our efforts revisit this age-old ‘nature versus nurture’ debate from a modern perspective: we demonstrate the
+possibility of investigating these aforementioned claims via rigorous computational simulations. AdaptiveNN
+emerges as a general, scalable, and sufficiently human-like proxy that learns from visual data with maximally
+eliminating the innate biases or abilities in humans. By being trained solely on real-world visual tasks like
+ImageNet object recognition, AdaptiveNN not only achieves beyond human-level accuracies [35] (Fig. 3), but
+also exhibits mostly indistinguishable behaviors from humans (Fig, 6), in terms of either the ‘eye movement’
+patterns in novel scene observation or assessing the ‘difficulty levels’ of various visual environments. These
+findings suggest that many adaptive behaviors and basic capabilities of human vision could indeed be acquired
+through routine visual tasks, without necessitating strong innate biases. In this sense, we are among the first to
+leverage advanced AI methods like deep networks and reinforcement learning to explore fundamental cognitive
+science questions under controlled experimental conditions [119, 120, 23, 24]. Additionally, we hope that our
+work will inspire new interdisciplinary collaborations between machine learning and broader fields, given the
+critical role of eye movements in probing into human vision and mind [121, 122, 106, 123, 7, 124, 77], and their
+widespread applications to various research communities, such as visual content analysis [105], graphic or web
+designs [125, 126], driving [127], gaming [128], and medical research [129, 130].
+In conclusion, the encouraging findings of this article demonstrate a new avenue for developing deep learning
+methodologies inspired by human vision. The efficacy of AdaptiveNN and its behavioral alignment with human
+visual systems underscore its potential. We anticipate future explorations in this direction to benefit both the
+AI and cognitive science communities – promising not only to foster the creation of next-generation computer
+vision models that are efficient, adaptable, and interpretable, but also to provide powerful computational tools for
+investigating human behavioral and learning processes.
+We also believe our work offers valuable insights into equipping computer vision models with adaptive sequential
+‘reasoning’-like perception capabilities using reinforcement learning, analogous to the approach employed in
+DeepSeek-R1 [131]. Towards this direction, we demonstrate how to model visual perception tasks as sequential
+decision procedures, and reveal why and how such models should be trained using reinforcement learning. Our
+resulting models can adaptively employ a larger number of strategically selected visual fixations to solve more
+challenging vision tasks.
+5. Methods
+5.1. Theoretical learning principles of AdaptiveNN
+Here we present the proof of Theorem 1 and Eq. (7).
+21
+
+==================== PAGE 24 ====================
+
+Emulating Human-like Adaptive Vision for Efficient and Flexible Machine Visual Perception
+• Oxford-IIIT Pet [134] is a 37 category pet dataset with∼200 images for each class. The images are highly
+diversified in scale, pose, and lighting.
+• Stanford Dogs [135] contains 20,580 images of 120 breeds of dogs from around the world. The dataset is
+divided into 12,000 images for training and 8,580 images for validation.
+• Stanford Cars [136] contains 16,185 images of 196 classes of cars. The data is divided into 8,144 training
+images and 8,041 validation images. The categories are typically built at the level of make, model, and year.
+• FGVC-Aircraft [137] is a benchmark that contains 10,200 images of 102 different classes of aircraft, where
+each class has 100 images. The data is organized in a four-level hierarchy, namely model, variant, family, and
+manufacturer.
+Efficient processing of visual data from real driving scenarios: STSD. Similar to human visual systems,
+AdaptiveNN is not only able to process relatively object-centric visual data such as ImageNet and fine-grained
+classificationdatasets,butalsoapplicabletomoregeneralvisualperceptionscenarios. Forexample,itcanprocess
+non-object-centric, complex images collected in the wild without specified pre-processing. As a representative
+example, we considered the task of recognizing traffic signs on the Swedish traffic signs dataset (STSD) [99]. The
+datasetconsistsof960 ×1,280road-sceneimages, capturedfromrealmovingvehicles, andthetaskistorecognize
+the existence and types of the speed limit signs. Note that the targets of interest are generally small, diversely
+distributed, and sometimes not clear. In this article, we used two subsets comprising 747 and 648 images for
+training and validation, respectively. Validation accuracy is used as the performance metric.
+Visual search with diversified task demands: localizing arbitrary digits in multi-digit images. To investigate
+whether AdaptiveNN has the human-like adaptability of customizing visual perception behaviors conditioned
+on different task demands, we considered a visual search scenario where the categories and number of targets
+are assumed to be flexibly changed. Specifically, we created a digit localization dataset by generating 224×224
+images, each randomly populated with 6 to 10 28×28 MNIST digits [53] against a black background without
+repetition of digits. We established a large-scale dataset with 500,000 images for training and 50,000 images for
+validation. To define a visual search task, we specified arbitrary numbers and classes of digits, and trained our
+model to identify the locations of these specified digits within each input image. This requires a model to not
+only recognize correct targets, but also accurately localize multiple targets in a single image. To measure the
+performance of a given model, we randomly defined many visual tasks, and obtained the average success rate on
+the validation set. Notably, one success means retrieving exactly all the digits demanded by a task from an input,
+while the success rate of a task is defined as the number of successes divided by the number of all samples.
+Image processing in medical scenarios: RSNA pneumonia detection. To demonstrate the efficacy of
+AdaptiveNN in applications where interpretability holds vital importance, a pneumonia detection scenario was
+considered. We used the RSNA Pneumonia dataset, which consists of∼30,000 frontal view chest radiographs
+[100]. Each image in the dataset is annotated with image-level labels indicating the presence or absence of
+pneumonia, as well as bounding boxes for pulmonary opacity which are visual signals for the disease. The
+annotations are provided by 18 board-certified radiologists from 16 institutions. In this article, we leveraged the
+image-level labels to train AdaptiveNN, and compared the locations it fixates on with the pulmonary opacity
+identified by clinicians to assess its interpretability. The dataset was randomly divided into training and validation
+sets, following a ratio of 85% and 15%, respectively. The model’s diagnostic accuracy was quantified through the
+area under the receiver operating characteristic curve (AUROC) on the validation data.
+5.2.2. Embodied AI tasks
+CALVIN long-horizon multi-task language control benchmarks. We adopt CALVIN [102] to construct the
+benchmarks for validating the performance of our multi-task, language-guided embodied agent. Within CALVIN,
+the agent is tasked with executing sequences of actions, each consisting of five subtasks defined through natural
+language instructions. The model’s effectiveness is measured by its average successful length across 1,000 task
+sequences, with scores ranging from 0 to 5 based on the number of subtasks completed successfully, as detailed in
+Extended Data Fig. A4b. The CALVIN dataset is organized into four distinct environmental subsets, labeled A
+through D, each characterized by unique visual backgrounds and object arrangements. Each of these subsets
+encompasses approximately 24,000 robot manipulation trajectories accompanied by language annotations. We
+24
+
+==================== PAGE 25 ====================
+
+Emulating Human-like Adaptive Vision for Efficient and Flexible Machine Visual Perception
+train our embodied multimodal large language models on these language-annotated trajectories. To thoroughly
+evaluate the model’s ability to imitate and generalize, we conduct experiments under two scenarios: 1) D→D:
+training and testing within the same environment, and 2) ABCD→D: training on data from all four environments
+while testing on a single target domain.
+5.2.3. Comparisons with human visual perception behaviors
+To demonstrate the potential of AdaptiveNN as a valuable tool for investigating human visual cognition, we
+evaluated humans and AdaptiveNN side by side on the same tests of visual perception behaviors. Specifically,
+these tests were designed under two goals, namely 1) spatial-wise, examining the locations of visual regions that
+a human/model fixates on; and 2) sample-wise, examining the difficulty level that a human/model assesses to
+accomplish the given task based on each individual visual environment. To attain these goals, we conducted three
+groups of experiments, as described below.
+First, through the lens of spatial-wise adaptiveness, we investigated the consistency of the locations of visual
+fixations selected by AdaptiveNN and humans. We employed the saliency in context (SALICON) benchmark
+[103], which consists of 10,000 training images and 5,000 validation images. Every image is annotated with a
+map of the centers of human gazing. Each gazing center is treated as a single point in the map. The maps of
+gazing centers were collected based on the paid Amazon Mechanical Turk (AMT) crowdsourcing marketplace,
+with each image observed by∼60 subjects. All participants had normal or corrected-to-normal vision and normal
+color vision. The images were presented to each subject in a random order, where each image was presented for 5
+seconds. The subjects were instructed to explore the image freely by looking at anywhere they wanted to look,
+with no further instructions on where they should look in the images. The gazing center locations were obtained
+by a 100 Hz resampling and processed by excluding the fast-moving data corresponding to saccade processes.
+To compare humans and AdaptiveNN in terms of spatial-wise adaptive visual perception, a metric named
+‘normalized human-like score’ was defined. For each image, the average density map of the gazing centers of
+all∼60 observers was used as the ground truth distribution of the real focal centers of human vision. We let
+AdaptiveNN selectn visual fixation regions on top of each image, mimicking the process of freely observing the
+image for a fixed length of time. Then, we obtained the probability that the ground truth human gazing centers fall
+into the visual fixation regions localized by AdaptiveNN, denoted aspAdaNN
+n . Similarly, consider sampling visual
+fixation regions following the gazing center distribution of an arbitrary single person (within∼60 observers), or
+fully randomly, and then taking the expectations. As a result, we had the corresponding expected probabilities
+E[pSingle-human
+n ] and E[pRandom
+n ], respectively. Built upon this, we defined that
+normalized human-like score= pAdaNN
+n − E[pRandom
+n ]
+E[pSingle-human
+n ]− E[pRandomn ]
+. (18)
+Notably, Eq. (18) = 1 indicates that the consistency between AdaptiveNN and the average characteristics of the
+spatial-wise visual fixation behaviors of people is approximately the same as the level of an average individual
+human observer. On the other hand, Eq. (18) = 0 provides a baseline of randomly fixating on the visual
+environments. In our implementation, normalized human-like scores were calculated upon mini-batches of data
+sampled from the dataset to reasonably reflect their values across different sets of visual environments. We
+adoptedn = 3 and a batch size of 64. Moreover, we reported the results on top of the two splits of SALICON
+(split-1/2 corresponds to the train/val split of SALICON). They were not particularly distinguished since our
+model had never been trained on SALICON.
+Second, through the lens of sample-wise adaptiveness, we investigated whether our model is consistent with
+humans in judging which visual environments are relatively easier or more difficult for a given task, and should
+be paid less or more attention to observing them. To achieve this, we started by measuring the judgments of
+difficulty level from humans. Specifically, ten volunteers (aged between 18 and 35) participated in our experiment
+(we verified that further increasing the number of subjects does not significantly affect our findings). All of
+them had normal or corrected-to-normal vision and normal color vision. Our studies were approved by the THU
+S&T Ethics Committee (AI), protocol THU-03-2024-0006, and obtained informed consent. We selected six
+representative categories of images from the ImageNet validation set. The participants were instructed to assign a
+0-to-100 score to each image according to the difficulty level of the visual recognition task built upon this image,
+25
+
+==================== PAGE 26 ====================
+
+Emulating Human-like Adaptive Vision for Efficient and Flexible Machine Visual Perception
+where smaller scores mean easier. The order of different categories and the order of images within each category
+were both randomized for each participant. Each image was presented to a participant for 5 seconds, after which a
+corresponding difficulty score was recorded. There was a practice session before formal trials for the participants
+togetfamiliarwithourexperimentalparadigm,whichwasidenticaltotheformaltrialsinallconfigurationsbutthe
+scores were not recorded. After the experiment, the scores of each category were normalized on a per-participant
+basis and averaged across participants. This human-assessed difficulty level was compared with the normalized
+state values predicted by AdaptiveNN, which reflect our model’s judgments on the difficulty level of each visual
+environment.
+Third, we further developed several ‘visual Turing tests’ [22], leveraging the straightforward human judgments
+to compare the visual perception behaviors of AdaptiveNN with those of humans. In these tests, real human
+judges tried to identify the machine, given paired examples of human and machine behaviors. Driven by the
+previous discussions, our ‘visual Turing tests’ probed into both the spatial-wise visual fixation behaviors and the
+sample-wise visual difficulty-assessment behaviors of our model. For the former, we took the ground truth density
+map of human gazing centers for each image from SALICON, and sampled a sequence of three visual fixation
+regions, as human behaviors against the machine behaviors of the three fixations selected by AdaptiveNN. For
+the latter, the normalized and averaged human-assessed difficulty scores acquired as aforementioned, and the
+normalized state values predicted by AdaptiveNN, were rescaled to [0, 100] on a per-class basis, as human and
+machine behaviors, respectively. In each trial, a human judge was given two paired groups of images (three in
+each) in a random order, one group comprising human behaviors and the other comprising machine behaviors.
+The human judge was informed to identify ‘which group of images reflect the visual perception behaviors of a
+machine’. See Supplementary Data Fig. 1-2 for the representative examples of our trials.
+The full procedure of ‘visual Turing tests’ is deatailed in Extended Data Fig. A3a. For each ‘visual Turing test’
+concerning the spatial-wise or sample-wise adaptive visual perception behaviors, we considered three types of
+trials: i)humanv.s. machine,asdescribedabove;ii)humanv.s. human;andiii)humanv.s. random. Foreachtrial
+of ii) and iii), we replaced the group of images corresponding to ‘machine’ with samples depicting the behaviors
+of human vision or randomly generated behaviors, yet the participant was still told to distinguish between human
+v.s. machine. We established 36 trials for each of i)-iii), yielding totally 108 trials for each of the two ‘visual
+Turingtests’. These108trialswereshuffledforeveryparticipant,suchthatii)andiii)providedrandomizedcontrol
+groups as baselines for comparison, and also offered information to validate whether our experimental setups
+were reasonable. 39 volunteers (aged between 18 and 40), with normal or corrected-to-normal vision and normal
+color vision, participated in our experiment. Our studies were approved by the THU S&T Ethics Committee (AI),
+protocol THU-03-2024-0006, and obtained informed consent. We verified that further increasing the number of
+subjects does not significantly affect our findings. There was a practice session before real trials. After all trials,
+each accuracy of i)-iii) was calculated per participant and aggregated across participants. Notably, 50% accuracy
+indicates that the sort of behaviors is indistinguishable from those of humans (perfectly human-like), while 100%
+suggests the inverse case.
+5.3. Implementation details of AdaptiveNN
+In this section, we describe the implementation details of our method, including its inference procedure, network
+architectures, and training algorithms. These materials are organized for ease of understanding.
+5.3.1. Inference procedure
+Termination criteria for the sequential perception process. The values of{η1,η 2,···} reflect whether the
+overall quantity of available resources for visual perception, such as computation, time, or energy, is sufficient in
+the current circumstance. When{η1,η 2,···} are large, AdaptiveNN generally tends to leverage relatively fewer
+fixationstoobservevariousvisualenvironments. Conversely,theirsmallvaluesindicatethatourmodelcanemploy
+more fixations for visual processing on average. Notably, this only corresponds to the overall situation. In both
+cases, AdaptiveNN can efficiently perform uneven computation allocation across different visual environments by
+utilizing the predicated state values ofVision Agent.
+Incorporatingtheseconsiderationsoftheeffectiveness-efficiencytrade-off,wearguethatthevaluesof {η1,η 2,···}
+should be determined through maximizing the performance of AdaptiveNN under a fixed amount of total cost.
+26
+
+==================== PAGE 33 ====================
+
+Emulating Human-like Adaptive Vision for Efficient and Flexible Machine Visual Perception
+a Step 1: Collecting 
+Perceptual Behaviors
+Step 2: Building Three
+Sets of Test Cases Step 3: ‘Visual Turing Tests’
+Human  v.s. AdaptiveNN
+Human  v.s. Random
+AdaptiveNN
+Human Behavior
+Random Behavior
+Human  v.s. Human
+......
+Subject
+Question: 
+One group from machine. 
+One group from human. 
+Which group reflects 
+machine behaviors?
+Paired Mixed & Shuffled
+Sources of behaviors
+(               ) 
+are not exposed to 
+the subjects
+b c
+Extended Data Fig. A3. Details of ‘visual Turing tests’. (a)The full procedure of ‘visual Turing tests’. We first collect the visual
+perceptionbehaviorsfromrealhumans,machine(AdaptiveNN),andrandomgeneration. Then,weconstructmultipletrials,eachincluding
+paired examples of perceptual behaviors. We consider three types of trials: i) human v.s. machine; ii) human v.s. human; and iii) human
+v.s. random, each corresponding toN trials (we useN=36), yielding totally3N trials for each ‘visual Turing test’. Finally, these3N trials
+are mixed and shuffled for every human judge (n=39). The participants are only instructed to identify the machine behaviors within each
+trial (for all i)-iii)). Each accuracy of i)-iii) is calculated per participant and aggregated across participants. As a result, i) offers the
+Turing test results, while ii) and iii) provide randomized control groups as baselines and also validate whether our experimental setups are
+reasonable. (b)Results of the two ‘visual Turing tests’. Each data point represents the average identification accuracy of a human judge.
+Bars show the mean accuracy across human judges and the corresponding 95% confidence interval. Ideal performance is 50%, where the
+machine is indistinguishable from human behaviors in these binary choice tasks.
+33
+
+==================== PAGE 52 ====================
+
+Springer Nature 2022 LATEX template
+9
+D Supplementary figures and tables259
+1
+2
+1
+2
+1
+2
+1
+2
+1
+2
+1
+2
+Human or Machine?
+Supplementary Data Fig. 1 Randomly selected examples of the ‘visual Turing test’ on the
+spatial-wise visual fixation behaviors of AdaptiveNN and humans. The three-sample groups
+in each pair that are obtained with a machine are (by row) 2, 2; 1, 1; 2, 1.
+
+==================== PAGE 53 ====================
+
+Springer Nature 2022 LATEX template
+10
+Human or Machine?
+14/100 28/100 54/100
+64/100 6/100 15/100
+1
+2
+(difficultylevel)
+(difficultylevel)
+14/100 73/100 17/100
+36/100 12/100 11/100
+1
+2
+(difficultylevel)
+(difficultylevel)
+11/100 24/100 37/100
+6/100 21/100 34/100
+1
+2
+(difficultylevel)
+(difficultylevel)
+25/100 54/100 90/100
+79/100 85/100 22/100
+1
+2
+(difficultylevel)
+(difficultylevel)
+5/100 95/100 15/100
+79/100 94/100 18/100
+1
+2
+(difficultylevel)
+(difficultylevel)
+55/100 34/100 16/100
+18/100 28/100 78/100
+1
+2
+(difficultylevel)
+(difficultylevel)
+Supplementary Data Fig. 2 Randomly selected examples of the ‘visual Turing test’ on the
+sample-wise visual difficulty assessment behaviors of AdaptiveNN and humans. The three-
+sample groups in each pair that are obtained with a machine are (by row) 2, 1; 2, 1; 2, 2.
+
+==================== PAGE 54 ====================
+
+Springer Nature 2022 LATEX template
+11
+0
+25
+50
+75
+100Random v.s. Human
+average accuracy: 79.8 ± 3.6
+0
+25
+50
+75
+100
+80.6
+0
+25
+50
+75
+100Human v.s. Human
+average accuracy: 49.3 ± 2.9
+0
+25
+50
+75
+100
+50.0
+Participants 1-39
+0
+25
+50
+75
+100AdaptiveNN v.s. Human
+average accuracy: 51.2 ± 2.7
+All participants
+0
+25
+50
+75
+100
+52.8
+Accuracy (%) of human judges in the Turing test of visual fixation behaviors
+Supplementary Data Fig. 3 Per-participant results of the ‘visual Turing test’ on the
+spatial-wise visual fixation behaviors. ‘ ±’ indicates the 95% confidence interval. The distri-
+bution across all participants is shown on the right.
+
+==================== PAGE 55 ====================
+
+Springer Nature 2022 LATEX template
+12
+0
+25
+50
+75
+100Random v.s. Human
+average accuracy: 82.3 ± 2.2
+0
+25
+50
+75
+100
+83.3
+0
+25
+50
+75
+100Human v.s. Human
+average accuracy: 49.1 ± 2.3
+0
+25
+50
+75
+100
+50.0
+Participants 1-39
+0
+25
+50
+75
+100AdaptiveNN v.s. Human
+average accuracy: 49.9 ± 3.2
+All participants
+0
+25
+50
+75
+100
+52.8
+Accuracy (%) of human judges in the Turing test of visual difficulty assessment behaviors
+Supplementary Data Fig. 4 Per-participant results of the ‘visual Turing test’ on the
+sample-wise visual difficulty assessment behaviors. ‘±’ indicates the 95% confidence interval.
+The distribution across all participants is shown on the right.
+
+==================== PAGE 76 ====================
+
+Springer Nature 2022 LATEX template
+33
+Method
+Zero-shot Normalized Human-like Score
+(ImageNet-1K→ SALICON-split-1)
+Mean± Std Median
+Gaussian Distribution 0.15± 0.13 0.15
+Center-Corner 0.08± 0.12 0.08
+GradCAM −0.09± 0.18 −0.07
+LayerCAM 0.02± 0.18 0 .03
+GradCAM+GMM 0.44± 0.17 0.46
+AdaptiveNN-DeiT-S 1.09± 0.16 1.11
+Supplementary Data Tab. 25 Normalized human-like scores which quantify the
+probability that human ground truth gaze centers (estimated from ∼60 observers’ visual
+perception behaviors) fall within the visual fixation regions identified by AdaptiveNN or
+other methods. Evaluated on the SALICON dataset using a ‘zero-shot’ setting,
+AdaptiveNN is trained on ImageNet and tested on the unseen SALICON-split-1 data.
+Method
+Zero-shot Normalized Human-like Score
+(ImageNet-1K→ SALICON-split-2)
+Mean± Std Median
+Gaussian Distribution 0.17± 0.15 0.16
+Center-Corner 0.13± 0.13 0.11
+GradCAM −0.09± 0.21 −0.10
+LayerCAM −0.02± 0.17 −0.01
+GradCAM+GMM 0.48± 0.19 0.47
+AdaptiveNN-DeiT-S 1.11± 0.18 1.11
+Supplementary Data Tab. 26 Normalized human-like scores which quantify the
+probability that human ground truth gaze centers (estimated from ∼60 observers’ visual
+perception behaviors) fall within the visual fixation regions identified by AdaptiveNN or
+other methods. Evaluated on the SALICON dataset using a ‘zero-shot’ setting,
+AdaptiveNN is trained on ImageNet and tested on the unseen SALICON-split-2 data.
+
+==================== PAGE 78 ====================
+
+Springer Nature 2022 LATEX template
+35
+Human Judge
+Accuracy (%) of distinguishing between each target
+behavior and human behavior
+Random Human AdaptiveNN
+1 94.4 63.9 41.7
+2 86.1 41.7 66.7
+3 80.6 44.4 63.9
+4 72.2 41.7 52.8
+5 69.4 41.7 47.2
+6 83.3 69.4 41.7
+7 72.2 44.4 41.7
+8 63.9 38.9 61.1
+9 63.9 44.4 41.7
+10 97.2 55.6 36.1
+11 97.2 58.3 47.2
+12 83.3 55.6 58.3
+13 100.0 63.9 61.1
+14 58.3 38.9 55.6
+15 86.1 36.1 58.3
+16 86.1 50.0 52.8
+17 80.6 55.6 33.3
+18 88.9 61.1 52.8
+19 80.6 58.3 55.6
+20 58.3 44.4 44.4
+21 69.4 50.0 63.9
+22 66.7 52.8 44.4
+23 86.1 36.1 58.3
+24 86.1 47.2 50.0
+25 63.9 52.8 44.4
+26 91.7 47.2 58.3
+27 83.3 63.9 38.9
+28 83.3 41.7 47.2
+29 75.0 50.0 44.4
+30 88.9 47.2 47.2
+31 58.3 52.8 55.6
+32 77.8 50.0 63.9
+33 88.9 55.6 44.4
+34 83.3 50.0 50.0
+35 80.6 36.1 52.8
+36 80.6 58.3 52.8
+37 80.6 33.3 50.0
+38 80.6 52.8 61.1
+39 83.3 36.1 55.6
+Average CI 79.8± 3.6 49.3 ± 2.9 51.2 ± 2.7
+Supplementary Data Tab. 28 Results of ‘Turing Test of the Visual Fixation Behaviors’:
+human judges (n=39) were randomly presented with paired examples of visual perception
+behaviors from ‘humans’ and one of AdaptiveNN, humans, random behaviors. Judges were
+tasked with identifying the machine, including in control pairs (‘random v.s. human’ or
+‘human v.s. human’). Values represent individual and mean accuracy across judges.
+
+==================== PAGE 79 ====================
+
+Springer Nature 2022 LATEX template
+36
+Human Judge
+Accuracy (%) of distinguishing between each target
+behavior and human behavior
+Random Human AdaptiveNN
+1 86.1 55.6 66.7
+2 80.6 52.8 58.3
+3 86.1 50.0 52.8
+4 88.9 61.1 41.7
+5 66.7 50.0 55.6
+6 83.3 52.8 52.8
+7 88.9 50.0 36.1
+8 94.4 47.2 61.1
+9 94.4 58.3 52.8
+10 72.2 52.8 52.8
+11 83.3 41.7 63.9
+12 91.7 50.0 41.7
+13 80.6 41.7 52.8
+14 77.8 50.0 36.1
+15 80.6 47.2 63.9
+16 86.1 38.9 58.3
+17 83.3 38.9 55.6
+18 91.7 38.9 61.1
+19 77.8 58.3 47.2
+20 86.1 47.2 61.1
+21 75.0 52.8 44.4
+22 77.8 47.2 52.8
+23 75.0 52.8 55.6
+24 86.1 55.6 41.7
+25 75.0 47.2 58.3
+26 83.3 47.2 30.6
+27 88.9 41.7 52.8
+28 75.0 38.9 61.1
+29 91.7 38.9 50.0
+30 72.2 52.8 38.9
+31 80.6 63.9 36.1
+32 77.8 38.9 47.2
+33 83.3 52.8 30.6
+34 72.2 41.7 44.4
+35 83.3 38.9 58.3
+36 83.3 50.0 38.9
+37 75.0 58.3 50.0
+38 83.3 55.6 33.3
+39 91.7 55.6 47.2
+Average CI 82.3± 2.2 49.1 ± 2.3 49.9 ± 3.2
+Supplementary Data Tab. 29 Results of ‘Turing Test of the Difficulty-assessment
+Behaviors’: human judges (n=39) were randomly presented with paired examples of visual
+perception behaviors from ‘humans’ and one of AdaptiveNN, humans, random behaviors.
+Judges were tasked with identifying the machine, including in control pairs (‘random v.s.
+human’ or ‘human v.s. human’). Values represent individual and mean accuracy across
+judges.
